@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="colors.css">
+    <!-- <link rel="stylesheet" href="bs_buttons.css"> -->
+
+    <title>Products</title>
+  </head>
+  <body>
+    <div id="app">
+      <!-- Nav Bar -->
+      <nav class="navbar navbar-expand-lg navbar-light">
+        <router-link class="navbar-brand" to="/">Cherry Shop</router-link>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <router-link class="nav-link" to="/">Home</router-link>
+            </li>
+
+            <li class="nav-item">
+              <router-link class="nav-link" to="/classifier">Classifier</router-link>
+            </li>
+
+            <li class="nav-item">
+              <router-link class="nav-link" to="/warehouse">Warehouse</router-link>
+            </li>
+
+            <li class="nav-item">
+              <router-link class="nav-link" to="/supplier">Supplier</router-link>
+            </li>
+
+            <li class="nav-item">
+              <router-link class="nav-link" to="/seller">Seller</router-link>
+            </li>
+
+            <li class="nav-item">
+              <router-link class="nav-link" to="/product">Products</router-link>
+            </li>
+
+          </ul>
+        </div>
+      </nav>
+
+      <router-view></router-view>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script src="home.vue"></script>
+    <script src="products.vue"></script>
+    <script src="about.vue"></script>
+
+    <script src="script.js"></script>
+  </body>
+</html>
