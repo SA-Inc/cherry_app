@@ -8,7 +8,7 @@ import script.sql_helper as sql_helper
 def create_supplier(data):
   cursor = connection.cursor()
   query = supplier_queries.insert_supplier
-  data = (data['code'], data['supplier'], data['receipt_date'], data['value_product'], data['price'], data['first_value'])
+  data = (data['company_name'], data['bank'], data['account_number'], data['phone_number'], data['email'], data['id_wh'])
 
   try:
     cursor.execute(query, data)
@@ -43,13 +43,13 @@ def read_all_suppliers():
 
 
 
-def read_supplier(id_wh):
+def read_supplier(id_sup):
   cursor = connection.cursor()
   query = supplier_queries.select_supplier_by_id
   response_data = {}
 
   try:
-    result = cursor.execute(query, id_wh)
+    result = cursor.execute(query, id_sup)
     data = result.fetchall()
     columns = sql_helper.get_columns_from_result(result.description)
     response_data = sql_helper.sql_select_result_to_json(columns, data)
@@ -64,10 +64,10 @@ def read_supplier(id_wh):
 
 
 
-def update_supplier(id_wh, data):
+def update_supplier(id_sup, data):
   cursor = connection.cursor()
   query = supplier_queries.update_supplier_by_id
-  data = (data['code'], data['supplier'], data['receipt_date'], data['value_product'], data['price'], data['first_value'], id_wh)
+  data = (data['company_name'], data['bank'], data['account_number'], data['phone_number'], data['email'], data['id_wh'], id_sup)
 
   try:
     result = cursor.execute(query, data)
@@ -81,16 +81,16 @@ def update_supplier(id_wh, data):
     if cursor.rowcount == -1 or cursor.rowcount == 0:
       return make_response({ 'status': 'supplier_not_found', 'data': {} }, 404)
     else:
-      return make_response({ 'status': 'suppliers_updated', 'data': {} }, 200)
+      return make_response({ 'status': 'supplier_updated', 'data': {} }, 200)
 
 
 
-def delete_supplier(id_wh):
+def delete_supplier(id_sup):
   cursor = connection.cursor()
   query = supplier_queries.delete_supplier_by_id
 
   try:
-    result = cursor.execute(query, id_wh)
+    result = cursor.execute(query, id_sup)
   except pyodbc.DatabaseError as error:
     raise error
     cursor.rollback()
@@ -101,4 +101,4 @@ def delete_supplier(id_wh):
     if cursor.rowcount == 0:
       return make_response({ 'status': 'supplier_not_found', 'data': {} }, 404)
     else:
-      return make_response({ 'status': 'suppliers_deleted', 'data': {} }, 200)
+      return make_response({ 'status': 'supplier_deleted', 'data': {} }, 200)

@@ -6,7 +6,7 @@ create table classifier(
   code INT PRIMARY KEY NOT NULL
 )
 
-create table warehouse (
+create table warehouse(
   id_wh INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
   code INT NOT NULL,
   supplier VARCHAR (40) NOT NULL,
@@ -14,7 +14,7 @@ create table warehouse (
   value_product INT NOT NULL,
   price money NOT NULL,
   first_value INT NOT NULL,
-  CONSTRAINT FK_code FOREIGN KEY (code) REFERENCES classifer (code)
+  CONSTRAINT FK_code FOREIGN KEY (code) REFERENCES classifier (code)
 )
 
 create table supplier(
@@ -28,7 +28,7 @@ create table supplier(
   CONSTRAINT FK_supp_to_warehouse FOREIGN KEY (id_wh) REFERENCES warehouse (id_wh)
 )
 
-create table seller (
+create table seller(
   id_sell INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
   status BIT NOT NULL,
   FIO VARCHAR (50) NOT NULL,
@@ -45,22 +45,22 @@ create table product(
   code INT NOT NULL,
   CONSTRAINT FK_prod_to_seller FOREIGN KEY (id_sell) REFERENCES seller (id_sell),
   CONSTRAINT FK_prod_to_warehouse FOREIGN KEY (id_wh) REFERENCES warehouse (id_wh),
-  CONSTRAINT FK_prod_code FOREIGN KEY (code) REFERENCES classifer (code)
+  CONSTRAINT FK_prod_code FOREIGN KEY (code) REFERENCES classifier (code)
 )
 
 
 
 -- QUERIES
 
--- Classifer
-INSERT INTO classifer (code) VALUES (1)
+-- classifier
+INSERT INTO classifier (code) VALUES (1)
 
-SELECT code from classifer
-SELECT code from classifer WHERE code = 1
+SELECT code from classifier
+SELECT code from classifier WHERE code = 1
 
-UPDATE classifer SET code = 7 WHERE code = 6
+UPDATE classifier SET code = 7 WHERE code = 6
 
-DELETE FROM classifer WHERE code = 6
+DELETE FROM classifier WHERE code = 6
 
 
 

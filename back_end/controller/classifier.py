@@ -10,6 +10,8 @@ def create_classifier(data):
   query = classifier_queries.insert_classifier
   data = (data['code'],)
 
+  print(data)
+
   try:
     cursor.execute(query, data)
   except pyodbc.DatabaseError as error:
@@ -67,7 +69,7 @@ def read_classifier(code):
 def update_classifier(code, data):
   cursor = connection.cursor()
   query = classifier_queries.update_classifier_by_code
-  data = (data['code'],)
+  data = (data['code'], code)
 
   try:
     result = cursor.execute(query, data)

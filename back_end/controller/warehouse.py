@@ -10,6 +10,7 @@ def create_warehouse(data):
   query = warehouse_queries.insert_warehouse
   data = (data['code'], data['supplier'], data['receipt_date'], data['value_product'], data['price'], data['first_value'])
 
+  print(data)
   try:
     cursor.execute(query, data)
   except pyodbc.DatabaseError as error:
@@ -32,6 +33,7 @@ def read_all_warehouses():
     data = result.fetchall()
     columns = sql_helper.get_columns_from_result(result.description)
     response_data = sql_helper.sql_select_result_to_json(columns, data)
+
   except pyodbc.DatabaseError as error:
     raise error
     return make_response({ 'status': 'error', 'error': error }, 400)
@@ -39,7 +41,7 @@ def read_all_warehouses():
     if len(response_data) == 0:
       return make_response({ 'status': 'warehouses_not_found', 'data': [] }, 404)
     else:
-      return make_response({ 'status': 'warehouses_found', 'data': response_data }, 200)
+      return make_response(json.dumps({ 'status': 'warehouses_found', 'data': response_data }, default = sql_helper.default), 200)
 
 
 
@@ -60,7 +62,7 @@ def read_warehouse(id_wh):
     if len(response_data) == 0:
       return make_response({ 'status': 'warehouse_not_found', 'data': {} }, 404)
     else:
-      return make_response({ 'status': 'warehouses_found', 'data': response_data }, 200)
+      return make_response(json.dumps({ 'status': 'warehouse_found', 'data': response_data }, default = sql_helper.default), 200)
 
 
 
@@ -70,7 +72,7 @@ def read_warehouse_id():
   response_data = []
 
   try:
-    result = cursor.execute(query, id_wh)
+    result = cursor.execute(query)
     data = result.fetchall()
     columns = sql_helper.get_columns_from_result(result.description)
     response_data = sql_helper.sql_select_result_to_json(columns, data)
@@ -102,7 +104,7 @@ def update_warehouse(id_wh, data):
     if cursor.rowcount == -1 or cursor.rowcount == 0:
       return make_response({ 'status': 'warehouse_not_found', 'data': {} }, 404)
     else:
-      return make_response({ 'status': 'warehouses_updated', 'data': {} }, 200)
+      return make_response({ 'status': 'warehouse_updated', 'data': {} }, 200)
 
 
 
@@ -122,4 +124,4 @@ def delete_warehouse(id_wh):
     if cursor.rowcount == 0:
       return make_response({ 'status': 'warehouse_not_found', 'data': {} }, 404)
     else:
-      return make_response({ 'status': 'warehouses_deleted', 'data': {} }, 200)
+      return make_response({ 'status': 'warehouse_deleted', 'data': {} }, 200)

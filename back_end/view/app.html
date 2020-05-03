@@ -4,8 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/colors.css">
+    <!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
+    <!-- <link rel="stylesheet" href="css/colors.css"> -->
+    <link rel="stylesheet" type="text/css" href = "{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" type="text/css" href = "{{ url_for('static', filename='css/colors.css') }}">
 
     <title>Cherry Shop</title>
   </head>
@@ -61,14 +63,24 @@
     <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-    <script src="components/home.vue"></script>
+    <!-- <script src="components/home.vue"></script>
     <script src="components/classifier.vue"></script>
     <script src="components/warehouse.vue"></script>
     <script src="components/supplier.vue"></script>
     <script src="components/seller.vue"></script>
     <script src="components/products.vue"></script>
-    <script src="components/about.vue"></script>
+    <script src="components/about.vue"></script> -->
 
-    <script src="script.js"></script>
+    <!-- <script src="script.js"></script> -->
+
+    <script src="{{ url_for('static', filename='components/home.vue') }}"></script>
+    <script src="{{ url_for('static', filename='components/classifier.vue') }}"></script>
+    <script src="{{ url_for('static', filename='components/warehouse.vue') }}"></script>
+    <script src="{{ url_for('static', filename='components/supplier.vue') }}"></script>
+    <script src="{{ url_for('static', filename='components/seller.vue') }}"></script>
+    <script src="{{ url_for('static', filename='components/products.vue') }}"></script>
+    <script src="{{ url_for('static', filename='components/about.vue') }}"></script>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
   </body>
 </html>

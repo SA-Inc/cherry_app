@@ -16,6 +16,10 @@ def read_all_warehouses():
 def read_warehouse(id_wh):
     return controller.warehouse.read_warehouse(id_wh)
 
+@warehouse.route('/read_ids', methods = ['GET'])
+def read_warehouse_id():
+    return controller.warehouse.read_warehouse_id()
+
 # @warehouse.route('/read/<id_wh>', methods = ['GET'])
 # def read_warehouse(id_wh):
 #     return controller.warehouse.read_warehouse(id_wh)

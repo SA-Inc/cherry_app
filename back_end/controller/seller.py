@@ -8,7 +8,7 @@ import script.sql_helper as sql_helper
 def create_seller(data):
   cursor = connection.cursor()
   query = seller_queries.insert_seller
-  data = (data['code'], data['supplier'], data['receipt_date'], data['value_product'], data['price'], data['first_value'])
+  data = (data['status'], data['FIO'], data['value_product'])
 
   try:
     cursor.execute(query, data)
@@ -43,13 +43,13 @@ def read_all_sellers():
 
 
 
-def read_seller(id_wh):
+def read_seller(id_sell):
   cursor = connection.cursor()
   query = seller_queries.select_seller_by_id
   response_data = {}
 
   try:
-    result = cursor.execute(query, id_wh)
+    result = cursor.execute(query, id_sell)
     data = result.fetchall()
     columns = sql_helper.get_columns_from_result(result.description)
     response_data = sql_helper.sql_select_result_to_json(columns, data)
@@ -70,7 +70,7 @@ def read_seller_id():
   response_data = []
 
   try:
-    result = cursor.execute(query, id_wh)
+    result = cursor.execute(query)
     data = result.fetchall()
     columns = sql_helper.get_columns_from_result(result.description)
     response_data = sql_helper.sql_select_result_to_json(columns, data)
@@ -81,14 +81,14 @@ def read_seller_id():
     if len(response_data) == 0:
       return make_response({ 'status': 'seller_not_found', 'data': [] }, 404)
     else:
-      return make_response({ 'status': 'sellers_found', 'data': response_data }, 200)
+      return make_response({ 'status': 'seller_found', 'data': response_data }, 200)
 
 
 
-def update_seller(id_wh, data):
+def update_seller(id_sell, data):
   cursor = connection.cursor()
   query = seller_queries.update_seller_by_id
-  data = (data['code'], data['supplier'], data['receipt_date'], data['value_product'], data['price'], data['first_value'], id_wh)
+  data = (data['status'], data['FIO'], data['value_product'], id_sell)
 
   try:
     result = cursor.execute(query, data)
@@ -102,16 +102,16 @@ def update_seller(id_wh, data):
     if cursor.rowcount == -1 or cursor.rowcount == 0:
       return make_response({ 'status': 'seller_not_found', 'data': {} }, 404)
     else:
-      return make_response({ 'status': 'sellers_updated', 'data': {} }, 200)
+      return make_response({ 'status': 'seller_updated', 'data': {} }, 200)
 
 
 
-def delete_seller(id_wh):
+def delete_seller(id_sell):
   cursor = connection.cursor()
   query = seller_queries.delete_seller_by_id
 
   try:
-    result = cursor.execute(query, id_wh)
+    result = cursor.execute(query, id_sell)
   except pyodbc.DatabaseError as error:
     raise error
     cursor.rollback()
@@ -122,4 +122,4 @@ def delete_seller(id_wh):
     if cursor.rowcount == 0:
       return make_response({ 'status': 'seller_not_found', 'data': {} }, 404)
     else:
-      return make_response({ 'status': 'sellers_deleted', 'data': {} }, 200)
+      return make_response({ 'status': 'seller_deleted', 'data': {} }, 200)

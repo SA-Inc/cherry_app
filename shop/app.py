@@ -3,10 +3,14 @@ from flask_cors import CORS
 import pyodbc
 
 database_config = {
-  
+  'driver': '{ODBC Driver 17 for SQL Server}',
+  'server': '192.168.0.104',
+  'database': 'cherry_shop',
+  'user': 'SA',
+  'password': '30456682sA'
 }
 
-app = Flask(__name__, template_folder = 'view', static_folder = 'view')
+app = Flask(__name__)
 CORS(app, resources = { r"/*": { "origins": "*" } })
 connection = pyodbc.connect('DRIVER={driver};SERVER={server};DATABASE={database};UID={user};PWD={password}'.format(**database_config))
 
