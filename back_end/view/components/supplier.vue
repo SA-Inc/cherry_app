@@ -5,6 +5,9 @@ const Supplier  = {
       showSuccessText: false,
       showErrorText: false,
       showWarningText: false,
+      success_message: '',
+      error_message: '',
+      warning_message: '',
       suppliers: [],
       showGetModal: false,
       showPostModal: false,
@@ -30,9 +33,10 @@ const Supplier  = {
     }
   },
   methods: {
-    showActionText: function(action) {
+    showActionText: function(action, message) {
       if (action === 'success') {
         this.showSuccessText = true;
+        this.success_message = message;
 
         setTimeout(function() {
           this.showSuccessText = false;
@@ -41,6 +45,7 @@ const Supplier  = {
 
       if (action === 'error') {
         this.showErrorText = true;
+        this.error_message = message;
 
         setTimeout(function() {
           this.showErrorText = false;
@@ -49,6 +54,7 @@ const Supplier  = {
 
       if (action === 'warning') {
         this.showWarningText = true;
+        this.warning_message = message;
 
         setTimeout(function() {
           this.showWarningText = false;
@@ -81,7 +87,7 @@ const Supplier  = {
 
           this.showPostModal = false;
           this.getAllSuppliers();
-          this.showActionText('success');
+          this.showActionText('success', 'Supplier was created');
         })
         .catch((error) => {
           console.log(error);
@@ -168,6 +174,7 @@ const Supplier  = {
 
           this.showPostModal = false;
           this.getAllSuppliers();
+          this.showActionText('success', 'Supplier was updated');
         })
         .catch((error) => {
           console.log(error);
@@ -183,9 +190,12 @@ const Supplier  = {
         .then(response => {
 
           this.getAllSuppliers();
+          this.showActionText('success', 'Supplier was deleted');
         })
         .catch((error) => {
-          console.log(error);
+          if (error.response.data.code === 23000) {
+            this.showActionText('error', 'Can not Delete Row. Foreign Key Reference Constraint');
+          }
         });
     },
   },
@@ -213,9 +223,9 @@ const Supplier  = {
           <button v-on:click="getAllSuppliers" type="button" class="btn purple_button">Reload</button>
         </h1>
       </div>
-        <p v-if="showSuccessText === true" class="success_text">Success: some text for success action</p>
-        <p v-if="showErrorText === true" class="error_text">Error: some text for error action</p>
-        <p v-if="showWarningText === true" class="warning_text">Warning: some text for warning action</p>
+        <p v-if="showSuccessText === true" class="success_text">Success: {{ success_message }}</p>
+        <p v-if="showErrorText === true" class="error_text">Error: {{ error_message }}</p>
+        <p v-if="showWarningText === true" class="warning_text">Warning: {{ warning_message }}</p>
     </div>
 
     <div v-if="loading === false" class="table-responsive">

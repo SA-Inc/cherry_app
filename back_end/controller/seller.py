@@ -106,20 +106,44 @@ def update_seller(id_sell, data):
 
 
 
+# def delete_seller(id_sell):
+#   cursor = connection.cursor()
+#   query = seller_queries.delete_seller_by_id
+
+#   try:
+#     result = cursor.execute(query, id_sell)
+#   except pyodbc.DatabaseError as error:
+#     raise error
+#     cursor.rollback()
+#     return make_response({ 'status': 'error', 'error': error }, 400)
+#   finally:
+#     cursor.commit()
+
+#     if cursor.rowcount == 0:
+#       return make_response({ 'status': 'seller_not_found', 'data': {} }, 404)
+#     else:
+#       return make_response({ 'status': 'seller_deleted', 'data': {} }, 200)
+
+
+
 def delete_seller(id_sell):
   cursor = connection.cursor()
   query = seller_queries.delete_seller_by_id
 
   try:
     result = cursor.execute(query, id_sell)
-  except pyodbc.DatabaseError as error:
-    raise error
-    cursor.rollback()
-    return make_response({ 'status': 'error', 'error': error }, 400)
-  finally:
+
     cursor.commit()
 
     if cursor.rowcount == 0:
       return make_response({ 'status': 'seller_not_found', 'data': {} }, 404)
     else:
       return make_response({ 'status': 'seller_deleted', 'data': {} }, 200)
+  except pyodbc.Error as error:
+    cursor.rollback()
+    error_code = error.args[0]
+
+    if error_code == '23000':
+      return make_response({ 'status': 'error', 'code': 23000, 'error': 'can_not_delete_foreign_key_conflict' }, 400)
+    else:
+      return make_response({ 'status': 'error', 'error': 'unexpected_error' }, 400)

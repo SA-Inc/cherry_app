@@ -5,6 +5,9 @@ const Classifier  = {
       showSuccessText: false,
       showErrorText: false,
       showWarningText: false,
+      success_message: '',
+      error_message: '',
+      warning_message: '',
       classifiers: [],
       showPostModal: false,
 
@@ -19,9 +22,10 @@ const Classifier  = {
     }
   },
   methods: {
-    showActionText: function(action) {
+    showActionText: function(action, message) {
       if (action === 'success') {
         this.showSuccessText = true;
+        this.success_message = message;
 
         setTimeout(function() {
           this.showSuccessText = false;
@@ -30,6 +34,7 @@ const Classifier  = {
 
       if (action === 'error') {
         this.showErrorText = true;
+        this.error_message = message;
 
         setTimeout(function() {
           this.showErrorText = false;
@@ -38,6 +43,7 @@ const Classifier  = {
 
       if (action === 'warning') {
         this.showWarningText = true;
+        this.warning_message = message;
 
         setTimeout(function() {
           this.showWarningText = false;
@@ -52,7 +58,7 @@ const Classifier  = {
         .then(response => {
           this.showPostModal = false;
           this.getAllClassifiers();
-          this.showActionText('success');
+          this.showActionText('success', 'Classifier was created');
         })
         .catch((error) => {
           console.log(error);
@@ -110,6 +116,7 @@ const Classifier  = {
 
           this.showPostModal = false;
           this.getAllClassifiers();
+          this.showActionText('success', 'Classifier was updated');
         })
         .catch((error) => {
           console.log(error);
@@ -125,9 +132,12 @@ const Classifier  = {
         .then(response => {
 
           this.getAllClassifiers();
+          this.showActionText('success', 'Classifier was deleted');
         })
         .catch((error) => {
-          console.log(error);
+          if (error.response.data.code === 23000) {
+            this.showActionText('error', 'Can not Delete Row. Foreign Key Reference Constraint');
+          }
         });
     },
   },
@@ -149,9 +159,9 @@ const Classifier  = {
           <button v-on:click="getAllClassifiers" type="button" class="btn purple_button">Reload</button>
         </h1>
       </div>
-        <p v-if="showSuccessText === true" class="success_text">Success: some text for success action</p>
-        <p v-if="showErrorText === true" class="error_text">Error: some text for error action</p>
-        <p v-if="showWarningText === true" class="warning_text">Warning: some text for warning action</p>
+        <p v-if="showSuccessText === true" class="success_text">Success: {{ success_message }}</p>
+        <p v-if="showErrorText === true" class="error_text">Error: {{ error_message }}</p>
+        <p v-if="showWarningText === true" class="warning_text">Warning: {{ warning_message }}</p>
     </div>
 
     <div v-if="loading === false" class="table-responsive">

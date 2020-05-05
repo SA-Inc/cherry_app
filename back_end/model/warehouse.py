@@ -7,5 +7,3 @@ select_warehouse_id = "SELECT id_wh FROM warehouse"
 update_warehouse_by_id = "UPDATE warehouse SET code = ?, supplier = ?, receipt_date = ?, value_product = ?, price = ?, first_value = ? WHERE id_wh = ?"
 
 delete_warehouse_by_id = "DELETE FROM warehouse WHERE id_wh = ?"
-
-count_total_warehouses = "SELECT COUNT(*) AS count FROM warehouse"

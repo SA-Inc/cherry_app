@@ -87,20 +87,44 @@ def update_product(id_prod, data):
 
 
 
+# def delete_product(id_prod):
+# 	cursor = connection.cursor()
+# 	query = product_queries.delete_product_by_id
+
+# 	try:
+# 		result = cursor.execute(query, id_prod)
+# 	except pyodbc.DatabaseError as error:
+# 		raise error
+# 		cursor.rollback()
+# 		return make_response({ 'status': 'error', 'error': error }, 400)
+# 	finally:
+# 		cursor.commit()
+
+# 		if cursor.rowcount == 0:
+# 			return make_response({ 'status': 'product_not_found', 'data': {} }, 404)
+# 		else:
+# 			return make_response({ 'status': 'product_updated', 'data': {} }, 200)
+
+
+
 def delete_product(id_prod):
-	cursor = connection.cursor()
-	query = product_queries.delete_product_by_id
+  cursor = connection.cursor()
+  query = product_queries.delete_product_by_id
 
-	try:
-		result = cursor.execute(query, id_prod)
-	except pyodbc.DatabaseError as error:
-		raise error
-		cursor.rollback()
-		return make_response({ 'status': 'error', 'error': error }, 400)
-	finally:
-		cursor.commit()
+  try:
+    result = cursor.execute(query, id_prod)
 
-		if cursor.rowcount == 0:
-			return make_response({ 'status': 'product_not_found', 'data': {} }, 404)
-		else:
-			return make_response({ 'status': 'product_updated', 'data': {} }, 200)
+    cursor.commit()
+
+    if cursor.rowcount == 0:
+      return make_response({ 'status': 'product_not_found', 'data': {} }, 404)
+    else:
+      return make_response({ 'status': 'product_deleted', 'data': {} }, 200)
+  except pyodbc.Error as error:
+    cursor.rollback()
+    error_code = error.args[0]
+
+    if error_code == '23000':
+      return make_response({ 'status': 'error', 'code': 23000, 'error': 'can_not_delete_foreign_key_conflict' }, 400)
+    else:
+      return make_response({ 'status': 'error', 'error': 'unexpected_error' }, 400)

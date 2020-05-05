@@ -1,0 +1,927 @@
+{
+	"info": {
+		"_postman_id": "54057b39-65d9-40ce-bc46-5907f24bc7eb",
+		"name": "Cherry_Shop",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "Read All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "192.168.0.105:5000/api/product/read_all",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"105"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"product",
+								"read_all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "192.168.0.105:5000/api/product/read/:id_prod",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"105"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"product",
+								"read",
+								":id_prod"
+							],
+							"variable": [
+								{
+									"key": "id_prod",
+									"value": "4"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"value_product\": 1000,\n\t\"date_sell\": \"20051223\",\n\t\"price_prod\": 12345.45,\n\t\"id_sell\": 2,\n\t\"id_wh\": 9,\n\t\"code\": 3\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "192.168.0.105:5000/api/product/create",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"105"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"product",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update by Id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"value_product\": 5000,\n\t\"date_sell\": \"20051223\",\n\t\"price_prod\": 12345.45,\n\t\"id_sell\": 3,\n\t\"id_wh\": 9,\n\t\"code\": 3\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "192.168.0.105:5000/api/product/update/:id_prod",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"105"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"product",
+								"update",
+								":id_prod"
+							],
+							"variable": [
+								{
+									"key": "id_prod",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete by Id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "192.168.0.105:5000/api/product/delete/:id_prod",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"105"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"product",
+								"delete",
+								":id_prod"
+							],
+							"variable": [
+								{
+									"key": "id_prod",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Classifier",
+			"item": [
+				{
+					"name": "Read All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "192.168.0.105:5000/api/classifier/read_all",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"105"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"classifier",
+								"read_all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read by Code",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "192.168.0.105:5000/api/classifier/read/:code",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"105"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"classifier",
+								"read",
+								":code"
+							],
+							"variable": [
+								{
+									"key": "code",
+									"value": "12"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"code\": 15\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "192.168.0.105:5000/api/classifier/create",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"105"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"classifier",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update by Id Copy",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"code\": 20\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "192.168.0.105:5000/api/classifier/update/:code",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"105"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"classifier",
+								"update",
+								":code"
+							],
+							"variable": [
+								{
+									"key": "code",
+									"value": "15"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete by Id Copy",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "192.168.0.105:5000/api/classifier/delete/:code",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"105"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"classifier",
+								"delete",
+								":code"
+							],
+							"variable": [
+								{
+									"key": "code",
+									"value": "12"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Warehouse",
+			"item": [
+				{
+					"name": "Read All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "192.168.0.105:5000/api/warehouse/read_all",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"105"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"warehouse",
+								"read_all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "192.168.0.105:5000/api/warehouse/read/:id_wh",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"105"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"warehouse",
+								"read",
+								":id_wh"
+							],
+							"variable": [
+								{
+									"key": "id_wh",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read Ids",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "192.168.0.105:5000/api/warehouse/read_ids",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"105"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"warehouse",
+								"read_ids"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"code\": 2,\n\t\"supplier\": \"sup 3\", \n\t\"receipt_date\": \"20200427\",\n\t\"value_product\": 12,\n\t\"price\": 100,\n\t\"first_value\": 13\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "192.168.0.105:5000/api/warehouse/create",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"105"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"warehouse",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update by Id Copy",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"code\": 2,\n\t\"supplier\": \"sup 67\", \n\t\"receipt_date\": \"20200427\",\n\t\"value_product\": 12,\n\t\"price\": 100,\n\t\"first_value\": 13\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "192.168.0.105:5000/api/warehouse/update/:id_wh",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"105"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"warehouse",
+								"update",
+								":id_wh"
+							],
+							"variable": [
+								{
+									"key": "id_wh",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete by Id Copy",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "192.168.0.105:5000/api/warehouse/delete/:id_wh",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"105"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"warehouse",
+								"delete",
+								":id_wh"
+							],
+							"variable": [
+								{
+									"key": "id_wh",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Supplier",
+			"item": [
+				{
+					"name": "Read All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "192.168.0.105:5000/api/supplier/read_all",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"105"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"supplier",
+								"read_all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "192.168.0.105:5000/api/supplier/read/:id_sup",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"105"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"supplier",
+								"read",
+								":id_sup"
+							],
+							"variable": [
+								{
+									"key": "id_sup",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"company_name\": \"32fd\",\n\t\"bank\": \"sup 3\", \n\t\"account_number\": \"20200427\",\n\t\"phone_number\": \"12\",\n\t\"email\": \"100\",\n\t\"id_wh\": 7\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "192.168.0.105:5000/api/supplier/create",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"105"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"supplier",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update by Id Copy",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"company_name\": \"32fd\",\n\t\"bank\": \"sup 4323\", \n\t\"account_number\": \"20200427\",\n\t\"phone_number\": \"12\",\n\t\"email\": \"100\",\n\t\"id_wh\": 7\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "192.168.0.105:5000/api/supplier/update/:id_sup",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"105"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"supplier",
+								"update",
+								":id_sup"
+							],
+							"variable": [
+								{
+									"key": "id_sup",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete by Id Copy",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "192.168.0.105:5000/api/supplier/delete/:id_sup",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"105"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"supplier",
+								"delete",
+								":id_sup"
+							],
+							"variable": [
+								{
+									"key": "id_sup",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "57380b19-e2e0-4529-bea3-d0b93918cf4a",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "21dfd4ac-d432-4f1d-81c1-87e2ae794398",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Seller",
+			"item": [
+				{
+					"name": "Read All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "192.168.0.105:5000/api/seller/read_all",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"105"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"seller",
+								"read_all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "192.168.0.105:5000/api/seller/read/:id_sell",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"105"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"seller",
+								"read",
+								":id_sell"
+							],
+							"variable": [
+								{
+									"key": "id_sell",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read Ids",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "192.168.0.105:5000/api/seller/read_ids",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"105"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"seller",
+								"read_ids"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"status\": false,\n\t\"FIO\": \"fio 1\", \n\t\"value_product\": 123\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "192.168.0.105:5000/api/seller/create",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"105"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"seller",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update by Id Copy",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"status\": false,\n\t\"FIO\": \"fio 45\", \n\t\"value_product\": 321\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "192.168.0.105:5000/api/seller/update/:id_sell",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"105"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"seller",
+								"update",
+								":id_sell"
+							],
+							"variable": [
+								{
+									"key": "id_sell",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete by Id Copy",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "192.168.0.105:5000/api/seller/delete/:id_sell",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"105"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"seller",
+								"delete",
+								":id_sell"
+							],
+							"variable": [
+								{
+									"key": "id_sell",
+									"value": "11"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "d545ccba-3508-4b3d-955d-37bb800e1344",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "2a214713-1fa3-4691-8ba3-f3ac14a0f9ed",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Dashboard",
+			"item": [
+				{
+					"name": "All Table Data",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "192.168.0.105:5000/count",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"105"
+							],
+							"port": "5000",
+							"path": [
+								"count"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
