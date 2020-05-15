@@ -73,8 +73,14 @@ const Warehouse  = {
 
       axios.get(url)
         .then(response => {
-          this.classifiers = response.data.data
           console.log(this.classifiers);
+          if (Array.isArray(response.data.data)) {
+            console.log('array');
+            this.classifiers = response.data.data
+          } else {
+            console.log('object');
+            this.classifiers = [response.data.data];
+          }
         })
         .catch((error) => {
           console.log(error);
@@ -233,9 +239,9 @@ const Warehouse  = {
     <div class="header">
       <div class="row">
         <h1>
-          <span>Warehouse</span>
-          <button v-on:click="showPostModal = true; formAction = 'Create'; getAllClassifiers()" type="button" class="btn yellow_button">Create</button>
-          <button v-on:click="getAllWarehouses" type="button" class="btn purple_button">Reload</button>
+          <span>Склады</span>
+          <button v-on:click="showPostModal = true; formAction = 'Создать'; getAllClassifiers()" type="button" class="btn yellow_button">Создать</button>
+          <button v-on:click="getAllWarehouses" type="button" class="btn purple_button">Обновить</button>
         </h1>
       </div>
         <p v-if="showSuccessText === true" class="success_text">Success: {{ success_message }}</p>
@@ -247,10 +253,14 @@ const Warehouse  = {
       <table class="table table-sm table-bordered table-hover">
         <thead>
           <tr>
-            <th>Classifier Code</th>
+            <th>Код классификатора</th>
+            <th>Поставщик</th>
+            <th>Дата поставки</th>
+            <th>Действия</th>
+            <!-- <th>Classifier Code</th>
             <th>Supplier</th>
             <th>Receipt Date</th>
-            <th>Actions</th>
+            <th>Actions</th> -->
           </tr>
         </thead>
 
@@ -260,9 +270,9 @@ const Warehouse  = {
             <td>{{ warehouse.supplier }}</td>
             <td>{{ warehouse.receipt_date }}</td>
             <td>
-              <button v-bind:value="warehouse.id_wh" v-on:click="getWarehouseById" type="button" class="btn blue_button">View</button>
-              <button v-bind:value="warehouse.id_wh" v-on:click="showPostModal = true; formAction = 'Update'; getWarehouseByIdOnlyData($event, warehouse.id_wh)" type="button" class="btn green_button">Edit</button>
-              <button v-bind:value="warehouse.id_wh" v-on:click="deleteWarehouseById" type="button" class="btn red_button">Delete</button>
+              <button v-bind:value="warehouse.id_wh" v-on:click="getWarehouseById" type="button" class="btn blue_button">Посмотреть</button>
+              <button v-bind:value="warehouse.id_wh" v-on:click="showPostModal = true; formAction = 'Редактировать'; getWarehouseByIdOnlyData($event, warehouse.id_wh)" type="button" class="btn green_button">Редактировать</button>
+              <button v-bind:value="warehouse.id_wh" v-on:click="deleteWarehouseById" type="button" class="btn red_button">Удалить</button>
             </td>
           </tr>
         </tbody>
@@ -278,69 +288,69 @@ const Warehouse  = {
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title">{{ formAction }} Warehouse</h5>
+                  <h5 class="modal-title">{{ formAction }} склад</h5>
                 </div>
                 <div class="modal-body">
-                  <p v-if="formAction === 'Update'">Id: <span>{{ selectedWarehouse.id_wh }}</span></p>
+                  <p v-if="formAction === 'Редактировать'">Id: <span>{{ selectedWarehouse.id_wh }}</span></p>
 
-                  <div v-if="formAction === 'Create'" class="form-group">
-                    <label for="warehouseInputName">Classifier Code</label>
+                  <div v-if="formAction === 'Создать'" class="form-group">
+                    <label for="warehouseInputName">Код классификатора</label>
                     <select v-model="newWarehouse.code" class="form-control" id="warehouseInputCode">
                       <option v-for="classifier in classifiers">{{ classifier.code }}</option>
                     </select>
                   </div>
                   <div v-else class="form-group">
-                    <p>Classifier Code: <span>{{ selectedWarehouse.code }}</span></p>
+                    <p>Код классификатора: <span>{{ selectedWarehouse.code }}</span></p>
                   </div>
 
                   <div class="form-group">
-                    <label for="warehouseInputDescription">Supplier</label>
-                    <input v-if="formAction === 'Create'" type="text" class="form-control" id="warehouseInputSupplier" v-model="newWarehouse.supplier">
+                    <label for="warehouseInputDescription">Поставщик</label>
+                    <input v-if="formAction === 'Создать'" type="text" class="form-control" id="warehouseInputSupplier" v-model="newWarehouse.supplier">
                     <input v-else type="text" class="form-control" id="warehouseInputSupplier" v-model="selectedWarehouse.supplier" value="selectedWarehouse.supplier">
                   </div>
 
                   <div class="form-group">
-                    <label for="warehouseInputDescription">Receipt Date</label>
+                    <label for="warehouseInputDescription">Дата поставки</label>
                     <!-- <input v-if="formAction === 'Create'" type="text" class="form-control" id="warehouseInputDate" v-model="newWarehouse.receipt_date"> -->
                     <!-- <input v-else type="text" class="form-control" id="warehouseInputDate" v-model="selectedWarehouse.receipt_date" value="selectedWarehouse.receipt_date"> -->
 
                     <div class="row">
                       <div class="col">
-                        <input v-if="formAction === 'Create'" v-model="newWarehouse.month" type="text" class="form-control" placeholder="Month(MM)">
-                        <input v-else type="text" v-model="selectedWarehouse.month" value="selectedWarehouse.month" class="form-control" placeholder="Month(MM)">
+                        <input v-if="formAction === 'Создать'" v-model="newWarehouse.month" type="text" class="form-control" placeholder="Месяц(MM)">
+                        <input v-else type="text" v-model="selectedWarehouse.month" value="selectedWarehouse.month" class="form-control" placeholder="Месяц(MM)">
                       </div>
                       <div class="col">
-                        <input v-if="formAction === 'Create'" v-model="newWarehouse.day" type="text" class="form-control" placeholder="Day(DD)">
-                        <input v-else type="text" v-model="selectedWarehouse.day" value="selectedWarehouse.day" class="form-control" placeholder="Day(DD)">
+                        <input v-if="formAction === 'Создать'" v-model="newWarehouse.day" type="text" class="form-control" placeholder="День(DD)">
+                        <input v-else type="text" v-model="selectedWarehouse.day" value="selectedWarehouse.day" class="form-control" placeholder="День(DD)">
                       </div>
                       <div class="col">
-                        <input v-if="formAction === 'Create'" v-model="newWarehouse.year" type="text" class="form-control" placeholder="Year(YYYY)">
-                        <input v-else type="text" v-model="selectedWarehouse.year" value="selectedWarehouse.year" class="form-control" placeholder="Year(YYYY)">
+                        <input v-if="formAction === 'Создать'" v-model="newWarehouse.year" type="text" class="form-control" placeholder="Год(YYYY)">
+                        <input v-else type="text" v-model="selectedWarehouse.year" value="selectedWarehouse.year" class="form-control" placeholder="Год(YYYY)">
                       </div>
                     </div>
                   </div>
 
                   <div class="form-group">
-                    <label for="warehouseInputDescription">Product Value</label>
-                    <input v-if="formAction === 'Create'" type="text" class="form-control" id="warehouseInputProductValue" v-model="newWarehouse.value_product">
+                    <label for="warehouseInputDescription">Объем поставки</label>
+                    <input v-if="formAction === 'Создать'" type="text" class="form-control" id="warehouseInputProductValue" v-model="newWarehouse.value_product">
                     <input v-else type="text" class="form-control" id="warehouseInputProductValue" v-model="selectedWarehouse.value_product" value="selectedWarehouse.value_product">
                   </div>
 
                   <div class="form-group">
-                    <label for="warehouseInputPrice">Price</label>
-                    <input v-if="formAction === 'Create'" type="text" class="form-control" id="warehouseInputPrice" v-model="newWarehouse.price">
+                    <label for="warehouseInputPrice">Цена</label>
+                    <input v-if="formAction === 'Создать'" type="text" class="form-control" id="warehouseInputPrice" v-model="newWarehouse.price">
                     <input v-else type="text" class="form-control" id="warehouseInputPrice" v-model="selectedWarehouse.price" value="selectedWarehouse.price">
                   </div>
 
                   <div class="form-group">
-                    <label for="warehouseInputPrice">First Value</label>
-                    <input v-if="formAction === 'Create'" type="text" class="form-control" id="warehouseFirstValue" v-model="newWarehouse.first_value">
+                    <label for="warehouseInputPrice">Изначальное кол-во товара</label>
+                    <input v-if="formAction === 'Создать'" type="text" class="form-control" id="warehouseFirstValue" v-model="newWarehouse.first_value">
                     <input v-else type="text" class="form-control" id="warehouseFirstValue" v-model="selectedWarehouse.first_value" value="selectedWarehouse.first_value">
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn red_button" v-on:click="showPostModal = false">Close</button>
-                  <button v-if="formAction === 'Create'" type="button" class="btn yellow_button" @click.prevent="createWarehouse()">{{ formAction }}</button>
+                  <button type="button" class="btn red_button" v-on:click="showPostModal = false">Закрыть</button>
+                  <button v-if="formAction === 'Создать'" type="button" class="btn yellow_button" @click.prevent="createWarehouse()">{{ formAction }}</button>
                   <button v-else type="button" class="btn green_button" v-bind:value="selectedWarehouse.id_wh" @click.prevent="updateWarehouseById">{{ formAction }}</button>
                 </div>
               </div>
@@ -359,19 +369,19 @@ const Warehouse  = {
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title">Product View</h5>
+                  <h5 class="modal-title">Просмотр склада</h5>
                 </div>
                 <div class="modal-body">
-                  <p>Warehouse Id: <span>{{ selectedWarehouse.id_wh }}</span></p>
-                  <p>Classifier Code: <span>{{ selectedWarehouse.code }}</span></p>
-                  <p>Supplier: <span>{{ selectedWarehouse.supplier }}</span></p>
-                  <p>Receipt Date: <span>{{ selectedWarehouse.receipt_date }}</span></p>
-                  <p>Product Value: <span>{{ selectedWarehouse.value_product }}</span></p>
-                  <p>Price: <span>{{ selectedWarehouse.price }}</span></p>
-                  <p>First Value: <span>{{ selectedWarehouse.first_value }}</span></p>
+                  <p>Id склада: <span>{{ selectedWarehouse.id_wh }}</span></p>
+                  <p>Код классификатора: <span>{{ selectedWarehouse.code }}</span></p>
+                  <p>Поставщик: <span>{{ selectedWarehouse.supplier }}</span></p>
+                  <p>Дата поставки: <span>{{ selectedWarehouse.receipt_date }}</span></p>
+                  <p>Объем поставки: <span>{{ selectedWarehouse.value_product }}</span></p>
+                  <p>Цена: <span>{{ selectedWarehouse.price }}</span></p>
+                  <p>Изначальное кол-во товара: <span>{{ selectedWarehouse.first_value }}</span></p>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn red_button" v-on:click="showGetModal = false">Close</button>
+                  <button type="button" class="btn red_button" v-on:click="showGetModal = false">Закрыть</button>
                 </div>
               </div>
             </div>

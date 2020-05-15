@@ -218,9 +218,11 @@ const Supplier  = {
     <div class="header">
       <div class="row">
         <h1>
-          <span>Supplier</span>
-          <button v-on:click="showPostModal = true; formAction = 'Create'; getAllWarehousesId()" type="button" class="btn yellow_button">Create</button>
-          <button v-on:click="getAllSuppliers" type="button" class="btn purple_button">Reload</button>
+          <span>Поставщики</span>
+          <!-- <button v-on:click="showPostModal = true; formAction = 'Create'; getAllWarehousesId()" type="button" class="btn yellow_button">Create</button> -->
+          <button v-on:click="showPostModal = true; formAction = 'Создать'; getAllWarehousesId()" type="button" class="btn yellow_button">Создать</button>
+          <!-- <button v-on:click="getAllSuppliers" type="button" class="btn purple_button">Reload</button> -->
+          <button v-on:click="getAllSuppliers" type="button" class="btn purple_button">Обновить</button>
         </h1>
       </div>
         <p v-if="showSuccessText === true" class="success_text">Success: {{ success_message }}</p>
@@ -232,10 +234,14 @@ const Supplier  = {
       <table class="table table-sm table-bordered table-hover">
         <thead>
           <tr>
-            <th>Account Number</th>
+            <th>Номер счета</th>
+            <th>Название компании</th>
+            <th>Номер телефона</th>
+            <th>Действия</th>
+            <!-- <th>Account Number</th>
             <th>Company Name</th>
             <th>Phone Number</th>
-            <th>Actions</th>
+            <th>Actions</th> -->
           </tr>
         </thead>
 
@@ -245,9 +251,9 @@ const Supplier  = {
             <td>{{ supplier.company_name }}</td>
             <td>{{ supplier.phone_number }}</td>
             <td>
-              <button v-bind:value="supplier.id_sup" v-on:click="getSupplierById" type="button" class="btn blue_button">View</button>
-              <button v-bind:value="supplier.id_sup" v-on:click="showPostModal = true; formAction = 'Update'; getSupplierByIdOnlyData($event, supplier.id_sup)" type="button" class="btn green_button">Edit</button>
-              <button v-bind:value="supplier.id_sup" v-on:click="deleteSupplierById" type="button" class="btn red_button">Delete</button>
+              <button v-bind:value="supplier.id_sup" v-on:click="getSupplierById" type="button" class="btn blue_button">Посмотреть</button>
+              <button v-bind:value="supplier.id_sup" v-on:click="showPostModal = true; formAction = 'Редактировать'; getSupplierByIdOnlyData($event, supplier.id_sup)" type="button" class="btn green_button">Редактировать</button>
+              <button v-bind:value="supplier.id_sup" v-on:click="deleteSupplierById" type="button" class="btn red_button">Удалить</button>
             </td>
           </tr>
         </tbody>
@@ -263,54 +269,54 @@ const Supplier  = {
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title">{{ formAction }} Supplier</h5>
+                  <h5 class="modal-title">{{ formAction }} поставщика</h5>
                 </div>
                 <div class="modal-body">
-                  <p v-if="formAction === 'Update'">Id: <span>{{ selectedSupplier.id_sup }}</span></p>
+                  <p v-if="formAction === 'Редактировать'">Id: <span>{{ selectedSupplier.id_sup }}</span></p>
 
-                  <div v-if="formAction === 'Create'" class="form-group">
-                    <label for="supplierInputWarehouseId">Warehouse Id</label>
+                  <div v-if="formAction === 'Создать'" class="form-group">
+                    <label for="supplierInputWarehouseId">Id Склада</label>
                     <select v-model="newSupplier.id_wh" class="form-control" id="supplierInputWarehouseId">
                       <option v-for="warehouse in warehouses">{{ warehouse.id_wh }}</option>
                     </select>
                   </div>
                   <div v-else class="form-group">
-                    <p>Warehouse Id: <span>{{ selectedSupplier.id_wh }}</span></p>
+                    <p>Id Склада: <span>{{ selectedSupplier.id_wh }}</span></p>
                   </div>
 
                   <div class="form-group">
-                    <label for="supplierInputCompanyName">Company Name</label>
-                    <input v-if="formAction === 'Create'" type="text" class="form-control" id="supplierInputCompanyName" v-model="newSupplier.company_name">
+                    <label for="supplierInputCompanyName">Название компании</label>
+                    <input v-if="formAction === 'Создать'" type="text" class="form-control" id="supplierInputCompanyName" v-model="newSupplier.company_name">
                     <input v-else type="text" class="form-control" id="supplierInputCompanyName" v-model="selectedSupplier.company_name" value="selectedSupplier.company_name">
                   </div>
 
                   <div class="form-group">
-                    <label for="supplierInputDescription">Bank</label>
-                    <input v-if="formAction === 'Create'" type="text" class="form-control" id="supplierInputProductValue" v-model="newSupplier.bank">
+                    <label for="supplierInputDescription">Наименование банка</label>
+                    <input v-if="formAction === 'Создать'" type="text" class="form-control" id="supplierInputProductValue" v-model="newSupplier.bank">
                     <input v-else type="text" class="form-control" id="supplierInputProductValue" v-model="selectedSupplier.bank" value="selectedSupplier.bank">
                   </div>
 
                   <div class="form-group">
-                    <label for="supplierInputPrice">Account Number</label>
-                    <input v-if="formAction === 'Create'" type="text" class="form-control" id="supplierInputPrice" v-model="newSupplier.account_number">
+                    <label for="supplierInputPrice">Номер счета</label>
+                    <input v-if="formAction === 'Создать'" type="text" class="form-control" id="supplierInputPrice" v-model="newSupplier.account_number">
                     <input v-else type="text" class="form-control" id="supplierInputPrice" v-model="selectedSupplier.account_number" value="selectedSupplier.account_number">
                   </div>
 
                   <div class="form-group">
-                    <label for="supplierInputPrice">Phone Number</label>
-                    <input v-if="formAction === 'Create'" type="text" class="form-control" id="supplierFirstValue" v-model="newSupplier.phone_number">
+                    <label for="supplierInputPrice">Номер телефона</label>
+                    <input v-if="formAction === 'Создать'" type="text" class="form-control" id="supplierFirstValue" v-model="newSupplier.phone_number">
                     <input v-else type="text" class="form-control" id="supplierFirstValue" v-model="selectedSupplier.phone_number" value="selectedSupplier.phone_number">
                   </div>
 
                   <div class="form-group">
-                    <label for="supplierInputPrice">Email</label>
-                    <input v-if="formAction === 'Create'" type="text" class="form-control" id="supplierFirstValue" v-model="newSupplier.email">
+                    <label for="supplierInputPrice">Почта</label>
+                    <input v-if="formAction === 'Создать'" type="text" class="form-control" id="supplierFirstValue" v-model="newSupplier.email">
                     <input v-else type="text" class="form-control" id="supplierFirstValue" v-model="selectedSupplier.email" value="selectedSupplier.email">
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn red_button" v-on:click="showPostModal = false">Close</button>
-                  <button v-if="formAction === 'Create'" type="button" class="btn yellow_button" @click.prevent="createSupplier()">{{ formAction }}</button>
+                  <button type="button" class="btn red_button" v-on:click="showPostModal = false">Закрыть</button>
+                  <button v-if="formAction === 'Создать'" type="button" class="btn yellow_button" @click.prevent="createSupplier()">{{ formAction }}</button>
                   <button v-else type="button" class="btn green_button" v-bind:value="selectedSupplier.id_sup" @click.prevent="updateSupplierById">{{ formAction }}</button>
                 </div>
               </div>
@@ -329,19 +335,19 @@ const Supplier  = {
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title">Supplier View</h5>
+                  <h5 class="modal-title">Просмотр поставщика</h5>
                 </div>
                 <div class="modal-body">
-                  <p>Supplier Id: <span>{{ selectedSupplier.id_sup }}</span></p>
-                  <p>Warehouse Id: <span>{{ selectedSupplier.id_wh }}</span></p>
-                  <p>Account Number: <span>{{ selectedSupplier.account_number }}</span></p>
-                  <p>Bank: <span>{{ selectedSupplier.bank }}</span></p>
-                  <p>Company Name: <span>{{ selectedSupplier.company_name }}</span></p>
-                  <p>Email: <span>{{ selectedSupplier.email }}</span></p>
-                  <p>Phone Number: <span>{{ selectedSupplier.phone_number }}</span></p>
+                  <p>Id поставщика: <span>{{ selectedSupplier.id_sup }}</span></p>
+                  <p>Id склада: <span>{{ selectedSupplier.id_wh }}</span></p>
+                  <p>Номер счета: <span>{{ selectedSupplier.account_number }}</span></p>
+                  <p>Наименование банка: <span>{{ selectedSupplier.bank }}</span></p>
+                  <p>Название компании: <span>{{ selectedSupplier.company_name }}</span></p>
+                  <p>Почта: <span>{{ selectedSupplier.email }}</span></p>
+                  <p>Номер телефона: <span>{{ selectedSupplier.phone_number }}</span></p>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn red_button" v-on:click="showGetModal = false">Close</button>
+                  <button type="button" class="btn red_button" v-on:click="showGetModal = false">Закрыть</button>
                 </div>
               </div>
             </div>

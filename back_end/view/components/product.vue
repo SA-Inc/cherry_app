@@ -77,7 +77,13 @@ const Product  = {
 
       await axios.get(classifier_url)
         .then(response => {
-          this.classifiers = response.data.data;
+          if (Array.isArray(response.data.data)) {
+            console.log('array');
+            this.classifiers = response.data.data;
+          } else {
+            console.log('object');
+            this.classifiers = [response.data.data];
+          }
         })
         .catch((error) => {
           console.log(error);
@@ -85,7 +91,13 @@ const Product  = {
 
       await axios.get(warehouse_url)
         .then(response => {
-          this.warehouses = response.data.data;
+          if (Array.isArray(response.data.data)) {
+            console.log('array');
+            this.warehouses = response.data.data;
+          } else {
+            console.log('object');
+            this.warehouses = [response.data.data];
+          }
         })
         .catch((error) => {
           console.log(error);
@@ -93,7 +105,13 @@ const Product  = {
 
       await axios.get(seller_url)
         .then(response => {
-          this.sellers = response.data.data;
+          if (Array.isArray(response.data.data)) {
+            console.log('array');
+            this.sellers = response.data.data;
+          } else {
+            console.log('object');
+            this.sellers = [response.data.data];
+          }
         })
         .catch((error) => {
           console.log(error);
@@ -261,9 +279,12 @@ const Product  = {
     <div class="header">
       <div class="row">
         <h1>
-          <span>Product</span>
-          <button v-on:click="showPostModal = true; formAction = 'Create'; getAllClassifiersWarehousesIdsAndSellerIds()" type="button" class="btn yellow_button">Create</button>
-          <button v-on:click="getAllProducts" type="button" class="btn purple_button">Reload</button>
+          <!-- <span>Product</span> -->
+          <span>Товары</span>
+          <!-- <button v-on:click="showPostModal = true; formAction = 'Create'; getAllClassifiersWarehousesIdsAndSellerIds()" type="button" class="btn yellow_button">Create</button> -->
+          <button v-on:click="showPostModal = true; formAction = 'Создать'; getAllClassifiersWarehousesIdsAndSellerIds()" type="button" class="btn yellow_button">Создать</button>
+          <!-- <button v-on:click="getAllProducts" type="button" class="btn purple_button">Reload</button> -->
+          <button v-on:click="getAllProducts" type="button" class="btn purple_button">Обновить</button>
         </h1>
       </div>
         <p v-if="showSuccessText === true" class="success_text">Success: {{ success_message }}</p>
@@ -275,10 +296,14 @@ const Product  = {
       <table class="table table-sm table-bordered table-hover">
         <thead>
           <tr>
-            <th>Product Value</th>
+            <!-- <th>Product Value</th>
             <th>Sell Date</th>
             <th>Price</th>
-            <th>Actions</th>
+            <th>Actions</th> -->
+            <th>Объем продажи</th>
+            <th>Дата продажи</th>
+            <th>Цена</th>
+            <th>Действия</th>
           </tr>
         </thead>
 
@@ -288,9 +313,12 @@ const Product  = {
             <td>{{ product.date_sell }}</td>
             <td>{{ product.price_prod }}</td>
             <td>
-              <button v-bind:value="product.id_prod" v-on:click="getProductById" type="button" class="btn blue_button">View</button>
-              <button v-bind:value="product.id_prod" v-on:click="showPostModal = true; formAction = 'Update'; getProductByIdOnlyData($event, product.id_prod)" type="button" class="btn green_button">Edit</button>
-              <button v-bind:value="product.id_prod" v-on:click="deleteProductById" type="button" class="btn red_button">Delete</button>
+              <!-- <button v-bind:value="product.id_prod" v-on:click="getProductById" type="button" class="btn blue_button">View</button> -->
+              <button v-bind:value="product.id_prod" v-on:click="getProductById" type="button" class="btn blue_button">Посмотреть</button>
+              <!-- <button v-bind:value="product.id_prod" v-on:click="showPostModal = true; formAction = 'Update'; getProductByIdOnlyData($event, product.id_prod)" type="button" class="btn green_button">Edit</button> -->
+              <button v-bind:value="product.id_prod" v-on:click="showPostModal = true; formAction = 'Редактировать'; getProductByIdOnlyData($event, product.id_prod)" type="button" class="btn green_button">Редактировать</button>
+              <!-- <button v-bind:value="product.id_prod" v-on:click="deleteProductById" type="button" class="btn red_button">Delete</button> -->
+              <button v-bind:value="product.id_prod" v-on:click="deleteProductById" type="button" class="btn red_button">Удалить</button>
             </td>
           </tr>
         </tbody>
@@ -306,74 +334,75 @@ const Product  = {
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title">{{ formAction }} Product</h5>
+                  <h5 class="modal-title">{{ formAction }} товар</h5>
                 </div>
                 <div class="modal-body">
-                  <p v-if="formAction === 'Update'">Id: <span>{{ selectedProduct.id_prod }}</span></p>
+                  <p v-if="formAction === 'Редактировать'">Id: <span>{{ selectedProduct.id_prod }}</span></p>
 
-                  <div v-if="formAction === 'Create'" class="form-group">
-                    <label for="productInputName">Warehouse Id</label>
+                  <div v-if="formAction === 'Создать'" class="form-group">
+                    <label for="productInputName">Id Склада</label>
                     <select v-model="newProduct.id_wh" class="form-control" id="productInputCode">
                       <option v-for="warehouse in warehouses">{{ warehouse.id_wh }}</option>
                     </select>
                   </div>
                   <div v-else class="form-group">
-                    <p>Warehouse Id: <span>{{ selectedProduct.id_wh }}</span></p>
+                    <p>Id Склада: <span>{{ selectedProduct.id_wh }}</span></p>
                   </div>
 
-                  <div v-if="formAction === 'Create'" class="form-group">
-                    <label for="productInputName">Seller Id</label>
+                  <div v-if="formAction === 'Создать'" class="form-group">
+                    <label for="productInputName">Id Продавца</label>
                     <select v-model="newProduct.id_sell" class="form-control" id="productInputCode">
                       <option v-for="seller in sellers">{{ seller.id_sell }}</option>
                     </select>
                   </div>
                   <div v-else class="form-group">
-                    <p>Seller Id: <span>{{ selectedProduct.id_sell }}</span></p>
+                    <p>Id Продавца: <span>{{ selectedProduct.id_sell }}</span></p>
                   </div>
 
-                  <div v-if="formAction === 'Create'" class="form-group">
-                    <label for="productInputName">Classifier Code</label>
+                  <div v-if="formAction === 'Создать'" class="form-group">
+                    <label for="productInputName">Код классификатора</label>
                     <select v-model="newProduct.code" class="form-control" id="productInputCode">
                       <option v-for="classifier in classifiers">{{ classifier.code }}</option>
                     </select>
                   </div>
                   <div v-else class="form-group">
-                    <p>Classifier Code: <span>{{ selectedProduct.code }}</span></p>
+                    <p>Код классификатора: <span>{{ selectedProduct.code }}</span></p>
                   </div>
 
                   <div class="form-group">
-                    <label for="productInputDescription">Receipt Date</label>
+                    <!-- <label for="productInputDescription">Receipt Date</label> -->
+                    <label for="productInputDescription">Дата продажи</label>
                     <div class="row">
                       <div class="col">
-                        <input v-if="formAction === 'Create'" v-model="newProduct.month" type="text" class="form-control" placeholder="Month(MM)">
-                        <input v-else type="text" v-model="selectedProduct.month" value="selectedProduct.month" class="form-control" placeholder="Month(MM)">
+                        <input v-if="formAction === 'Создать'" v-model="newProduct.month" type="text" class="form-control" placeholder="Месяц(MM)">
+                        <input v-else type="text" v-model="selectedProduct.month" value="selectedProduct.month" class="form-control" placeholder="Месяц(MM)">
                       </div>
                       <div class="col">
-                        <input v-if="formAction === 'Create'" v-model="newProduct.day" type="text" class="form-control" placeholder="Day(DD)">
-                        <input v-else type="text" v-model="selectedProduct.day" value="selectedProduct.day" class="form-control" placeholder="Day(DD)">
+                        <input v-if="formAction === 'Создать'" v-model="newProduct.day" type="text" class="form-control" placeholder="День(DD)">
+                        <input v-else type="text" v-model="selectedProduct.day" value="selectedProduct.day" class="form-control" placeholder="День(DD)">
                       </div>
                       <div class="col">
-                        <input v-if="formAction === 'Create'" v-model="newProduct.year" type="text" class="form-control" placeholder="Year(YYYY)">
-                        <input v-else type="text" v-model="selectedProduct.year" value="selectedProduct.year" class="form-control" placeholder="Year(YYYY)">
+                        <input v-if="formAction === 'Создать'" v-model="newProduct.year" type="text" class="form-control" placeholder="Год(YYYY)">
+                        <input v-else type="text" v-model="selectedProduct.year" value="selectedProduct.year" class="form-control" placeholder="Год(YYYY)">
                       </div>
                     </div>
                   </div>
 
                   <div class="form-group">
-                    <label for="productInputDescription">Product Value</label>
-                    <input v-if="formAction === 'Create'" type="text" class="form-control" id="productInputProductValue" v-model="newProduct.value_product">
+                    <label for="productInputDescription">Объем продажи</label>
+                    <input v-if="formAction === 'Создать'" type="text" class="form-control" id="productInputProductValue" v-model="newProduct.value_product">
                     <input v-else type="text" class="form-control" id="productInputProductValue" v-model="selectedProduct.value_product" value="selectedProduct.value_product">
                   </div>
 
                   <div class="form-group">
-                    <label for="productInputDescription">Product Price</label>
-                    <input v-if="formAction === 'Create'" type="text" class="form-control" id="productInputProductValue" v-model="newProduct.price_prod">
+                    <label for="productInputDescription">Цена</label>
+                    <input v-if="formAction === 'Создать'" type="text" class="form-control" id="productInputProductValue" v-model="newProduct.price_prod">
                     <input v-else type="text" class="form-control" id="productInputProductValue" v-model="selectedProduct.price_prod" value="selectedProduct.price_prod">
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn red_button" v-on:click="showPostModal = false">Close</button>
-                  <button v-if="formAction === 'Create'" type="button" class="btn yellow_button" @click.prevent="createProduct()">{{ formAction }}</button>
+                  <button type="button" class="btn red_button" v-on:click="showPostModal = false">Закрыть</button>
+                  <button v-if="formAction === 'Создать'" type="button" class="btn yellow_button" @click.prevent="createProduct()">{{ formAction }}</button>
                   <button v-else type="button" class="btn green_button" v-bind:value="selectedProduct.id_prod" @click.prevent="updateProductById">{{ formAction }}</button>
                 </div>
               </div>
@@ -392,19 +421,27 @@ const Product  = {
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title">Product View</h5>
+                  <h5 class="modal-title">Просмотр товара</h5>
                 </div>
                 <div class="modal-body">
-                  <p>Product Id: <span>{{ selectedProduct.id_prod }}</span></p>
+                  <p>Id Товара: <span>{{ selectedProduct.id_prod }}</span></p>
+                  <p>Id Склада: <span>{{ selectedProduct.id_wh }}</span></p>
+                  <p>Id Продавца: <span>{{ selectedProduct.id_sell }}</span></p>
+                  <p>Код классификатора: <span>{{ selectedProduct.code }}</span></p>
+                  <p>Дата продажи: <span>{{ selectedProduct.date_sell }}</span></p>
+                  <p>Объем продажи: <span>{{ selectedProduct.value_product }}</span></p>
+                  <p>Цена: <span>{{ selectedProduct.price_prod }}</span></p>
+                  <!-- <p>Product Id: <span>{{ selectedProduct.id_prod }}</span></p>
                   <p>Warehouse Id: <span>{{ selectedProduct.id_wh }}</span></p>
                   <p>Seller Id: <span>{{ selectedProduct.id_sell }}</span></p>
                   <p>Classifier Code: <span>{{ selectedProduct.code }}</span></p>
                   <p>Sell Date Value: <span>{{ selectedProduct.date_sell }}</span></p>
                   <p>Product Value: <span>{{ selectedProduct.value_product }}</span></p>
-                  <p>Price: <span>{{ selectedProduct.price_prod }}</span></p>
+                  <p>Price: <span>{{ selectedProduct.price_prod }}</span></p> -->
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn red_button" v-on:click="showGetModal = false">Close</button>
+                  <!-- <button type="button" class="btn red_button" v-on:click="showGetModal = false">Close</button> -->
+                  <button type="button" class="btn red_button" v-on:click="showGetModal = false">Закрыть</button>
                 </div>
               </div>
             </div>

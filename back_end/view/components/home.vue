@@ -46,17 +46,25 @@ const Home  = {
     <div class="header">
       <div class="row">
         <h1>
-          <span>Home</span>
-          <button v-on:click="getAllCountData" type="button" class="btn purple_button">Reload</button>
+          <!-- <span>Home</span> -->
+          <span>Главная страница</span>
+          <!-- <button v-on:click="getAllCountData" type="button" class="btn purple_button">Reload</button> -->
+          <button v-on:click="getAllCountData" type="button" class="btn purple_button">Обновить</button>
         </h1>
       </div>
       <div v-if="loading === false">
-        <h2>Total</h2>
+        <!-- <h2>Total</h2>
         <p>Classifiers: <span class="cherry_color">{{ aggregate_data.classifier }}</span></p>
         <p>Producs: <span class="cherry_color">{{ aggregate_data.product }}</span></p>
         <p>Sellers: <span class="cherry_color">{{ aggregate_data.seller }}</span></p>
         <p>Suppliers: <span class="cherry_color">{{ aggregate_data.supplier }}</span></p>
-        <p>Warehouses: <span class="cherry_color">{{ aggregate_data.warehouse }}</span></p>
+        <p>Warehouses: <span class="cherry_color">{{ aggregate_data.warehouse }}</span></p> -->
+        <h2>Общее количество</h2>
+        <p>Классификатор: <span class="cherry_color">{{ aggregate_data.classifier }}</span></p>
+        <p>Товары: <span class="cherry_color">{{ aggregate_data.product }}</span></p>
+        <p>Продавцы: <span class="cherry_color">{{ aggregate_data.seller }}</span></p>
+        <p>Поставщики: <span class="cherry_color">{{ aggregate_data.supplier }}</span></p>
+        <p>Склады: <span class="cherry_color">{{ aggregate_data.warehouse }}</span></p>
       </div>
     </div>
 

@@ -8,7 +8,7 @@ import script.sql_helper as sql_helper
 def create_classifier(data):
   cursor = connection.cursor()
   query = classifier_queries.insert_classifier
-  data = (data['code'],)
+  data = (data['code'], data['name_prod'])
 
   print(data)
 
@@ -69,7 +69,7 @@ def read_classifier(code):
 def update_classifier(code, data):
   cursor = connection.cursor()
   query = classifier_queries.update_classifier_by_code
-  data = (data['code'], code)
+  data = (data['code'], data['name_prod'], code)
 
   try:
     result = cursor.execute(query, data)

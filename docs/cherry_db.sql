@@ -3,7 +3,8 @@ create database cherry_shop
 -- CREATE TABLES
 
 create table classifier(
-  code INT PRIMARY KEY NOT NULL
+  code INT PRIMARY KEY NOT NULL,
+  name_prod varchar (30) NOT NULL
 )
 
 create table warehouse(
@@ -12,7 +13,7 @@ create table warehouse(
   supplier VARCHAR (40) NOT NULL,
   receipt_date DATE NOT NULL,
   value_product INT NOT NULL,
-  price money NOT NULL,
+  price MONEY NOT NULL,
   first_value INT NOT NULL,
   CONSTRAINT FK_code FOREIGN KEY (code) REFERENCES classifier (code)
 )
@@ -23,14 +24,14 @@ create table supplier(
   bank VARCHAR (30) NOT NULL,
   account_number VARCHAR (12) NOT NULL,
   phone_number VARCHAR (20) NOT NULL,
-  email VARCHAR (20) NULL,
+  email VARCHAR (100) NULL, -- UPDATE
   id_wh INT NOT NULL,
   CONSTRAINT FK_supp_to_warehouse FOREIGN KEY (id_wh) REFERENCES warehouse (id_wh)
 )
 
 create table seller(
   id_sell INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
-  status BIT NOT NULL,
+  status_sell BIT NOT NULL, -- UPDATE
   FIO VARCHAR (50) NOT NULL,
   value_product INT NOT NULL,
 )

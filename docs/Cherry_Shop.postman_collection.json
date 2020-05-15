@@ -174,12 +174,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "192.168.0.105:5000/api/classifier/read_all",
+							"raw": "192.168.0.101:5000/api/classifier/read_all",
 							"host": [
 								"192",
 								"168",
 								"0",
-								"105"
+								"101"
 							],
 							"port": "5000",
 							"path": [
@@ -228,7 +228,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"code\": 15\n}",
+							"raw": "{\n\t\"code\": 15,\n\t\"name_prod\": \"test\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -236,12 +236,12 @@
 							}
 						},
 						"url": {
-							"raw": "192.168.0.105:5000/api/classifier/create",
+							"raw": "192.168.0.101:5000/api/classifier/create",
 							"host": [
 								"192",
 								"168",
 								"0",
-								"105"
+								"101"
 							],
 							"port": "5000",
 							"path": [
@@ -260,7 +260,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"code\": 20\n}",
+							"raw": "{\n\t\"code\": 20,\n\t\"name_prod\": \"test\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -752,12 +752,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "192.168.0.105:5000/api/seller/read_ids",
+							"raw": "192.168.0.101:5000/api/seller/read_ids",
 							"host": [
 								"192",
 								"168",
 								"0",
-								"105"
+								"101"
 							],
 							"port": "5000",
 							"path": [
@@ -776,7 +776,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"status\": false,\n\t\"FIO\": \"fio 1\", \n\t\"value_product\": 123\n}",
+							"raw": "{\n\t\"status_sell\": false,\n\t\"FIO\": \"fio 1\", \n\t\"value_product\": 123\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -808,7 +808,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"status\": false,\n\t\"FIO\": \"fio 45\", \n\t\"value_product\": 321\n}",
+							"raw": "{\n\t\"status_sell\": false,\n\t\"FIO\": \"fio 45\", \n\t\"value_product\": 321\n}",
 							"options": {
 								"raw": {
 									"language": "json"

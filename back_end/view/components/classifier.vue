@@ -13,10 +13,12 @@ const Classifier  = {
 
       selectedClassifier: {
         old_code: null,
-        code: null
+        code: null,
+        name_prod: ''
       },
       newClassifier: {
-        code: null
+        code: null,
+        name_prod: ''
       },
       formAction: ''
     }
@@ -97,6 +99,7 @@ const Classifier  = {
           console.log(response.data);
           this.selectedClassifier.old_code = response.data.data.code;
           this.selectedClassifier.code = response.data.data.code;
+          this.selectedClassifier.name_prod = response.data.data.name_prod;
         })
         .catch((error) => {
           console.log(error);
@@ -154,9 +157,12 @@ const Classifier  = {
     <div class="header">
       <div class="row">
         <h1>
-          <span>Classifier</span>
-          <button v-on:click="showPostModal = true; formAction = 'Create'" type="button" class="btn yellow_button">Create</button>
-          <button v-on:click="getAllClassifiers" type="button" class="btn purple_button">Reload</button>
+          <!-- <span>Classifier</span> -->
+          <span>Классификаторы</span>
+          <!-- <button v-on:click="showPostModal = true; formAction = 'Create'" type="button" class="btn yellow_button">Create</button> -->
+          <button v-on:click="showPostModal = true; formAction = 'Создать'" type="button" class="btn yellow_button">Создать</button>
+          <!-- <button v-on:click="getAllClassifiers" type="button" class="btn purple_button">Reload</button> -->
+          <button v-on:click="getAllClassifiers" type="button" class="btn purple_button">Обновить</button>
         </h1>
       </div>
         <p v-if="showSuccessText === true" class="success_text">Success: {{ success_message }}</p>
@@ -168,17 +174,24 @@ const Classifier  = {
       <table class="table table-sm table-bordered table-hover">
         <thead>
           <tr>
-            <th>Code</th>
-            <th>Actions</th>
+            <!-- <th>Code</th>
+            <th>Product Name</th>
+            <th>Actions</th> -->
+            <th>Код</th>
+            <th>Наименование товара</th>
+            <th>Действия</th>
           </tr>
         </thead>
 
         <tbody>
           <tr v-for="classifier in classifiers">
             <td>{{ classifier.code }}</td>
+            <td>{{ classifier.name_prod }}</td>
             <td>
-              <button v-bind:value="classifier.code" v-on:click="showPostModal = true; formAction = 'Update'; getClassifierByCode($event, classifier.code)" type="button" class="btn green_button">Edit</button>
-              <button v-bind:value="classifier.code" v-on:click="deleteClassifierById" type="button" class="btn red_button">Delete</button>
+              <!-- <button v-bind:value="classifier.code" v-on:click="showPostModal = true; formAction = 'Update'; getClassifierByCode($event, classifier.code)" type="button" class="btn green_button">Edit</button> -->
+              <button v-bind:value="classifier.code" v-on:click="showPostModal = true; formAction = 'Редактировать'; getClassifierByCode($event, classifier.code)" type="button" class="btn green_button">Редактировать</button>
+              <!-- <button v-bind:value="classifier.code" v-on:click="deleteClassifierById" type="button" class="btn red_button">Delete</button> -->
+              <button v-bind:value="classifier.code" v-on:click="deleteClassifierById" type="button" class="btn red_button">Удалить</button>
             </td>
           </tr>
         </tbody>
@@ -194,19 +207,25 @@ const Classifier  = {
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title">{{ formAction }} Classifier</h5>
+                  <h5 class="modal-title">{{ formAction }} классификатор</h5>
                 </div>
                 <div class="modal-body">
-                  <p v-if="formAction === 'Update'">Code: <span>{{ selectedClassifier.old_code }}</span></p>
+                  <p v-if="formAction === 'Редактировать'">Код: <span>{{ selectedClassifier.old_code }}</span></p>
                   <div class="form-group">
-                    <label for="classifierInputName">Code</label>
-                    <input v-if="formAction === 'Create'" type="text" class="form-control" id="classifierInputName" v-model="newClassifier.code">
+                    <label for="classifierInputName">Код</label>
+                    <input v-if="formAction === 'Создать'" type="text" class="form-control" id="classifierInputName" v-model="newClassifier.code">
                     <input v-else type="text" class="form-control" id="classifierInputName" v-model="selectedClassifier.code" value="selectedClassifier.code">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="classifierInputName">Наименование товара</label>
+                    <input v-if="formAction === 'Создать'" type="text" class="form-control" id="classifierInputName" v-model="newClassifier.name_prod">
+                    <input v-else type="text" class="form-control" id="classifierInputName" v-model="selectedClassifier.name_prod" value="selectedClassifier.name_prod">
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn red_button" v-on:click="showPostModal = false">Close</button>
-                  <button v-if="formAction === 'Create'" type="button" class="btn yellow_button" @click.prevent="createClassifier()">{{ formAction }}</button>
+                  <button type="button" class="btn red_button" v-on:click="showPostModal = false">Закрыть</button>
+                  <button v-if="formAction === 'Создать'" type="button" class="btn yellow_button" @click.prevent="createClassifier()">{{ formAction }}</button>
                   <button v-else type="button" class="btn green_button" v-bind:value="selectedClassifier.old_code" @click.prevent="updateClassifierByCode">{{ formAction }}</button>
                 </div>
               </div>

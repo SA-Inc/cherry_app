@@ -14,12 +14,12 @@ const Seller  = {
       formAction: '',
       selectedSeller: {
         id_sell: null,
-        status: null,
+        status_sell: null,
         FIO: '',
         value_product: null
       },
       newSeller: {
-        status: false,
+        status_sell: false,
         FIO: '',
         value_product: null
       },
@@ -118,7 +118,7 @@ const Seller  = {
         .then(response => {
           this.selectedSeller.id_sell = response.data.data.id_sell;
           this.selectedSeller.FIO = response.data.data.FIO;
-          this.selectedSeller.status = response.data.data.status;
+          this.selectedSeller.status_sell = response.data.data.status_sell;
           this.selectedSeller.value_product = response.data.data.value_product;
 
           this.showGetModal = true;
@@ -138,7 +138,7 @@ const Seller  = {
         .then(response => {
           this.selectedSeller.id_sell = response.data.data.id_sell;
           this.selectedSeller.FIO = response.data.data.FIO;
-          this.selectedSeller.status = response.data.data.status;
+          this.selectedSeller.status_sell = response.data.data.status_sell;
           this.selectedSeller.value_product = response.data.data.value_product;
 
           this.loading = false;
@@ -205,9 +205,12 @@ const Seller  = {
     <div class="header">
       <div class="row">
         <h1>
-          <span>Seller</span>
-          <button v-on:click="showPostModal = true; formAction = 'Create'; getAllWarehousesId()" type="button" class="btn yellow_button">Create</button>
-          <button v-on:click="getAllSellers" type="button" class="btn purple_button">Reload</button>
+          <!-- <span>Seller</span> -->
+          <span>Продавец</span>
+          <!-- <button v-on:click="showPostModal = true; formAction = 'Create'; getAllWarehousesId()" type="button" class="btn yellow_button">Create</button> -->
+          <button v-on:click="showPostModal = true; formAction = 'Создать'; getAllWarehousesId()" type="button" class="btn yellow_button">Создать</button>
+          <!-- <button v-on:click="getAllSellers" type="button" class="btn purple_button">Reload</button> -->
+          <button v-on:click="getAllSellers" type="button" class="btn purple_button">Обновить</button>
         </h1>
       </div>
         <p v-if="showSuccessText === true" class="success_text">Success: {{ success_message }}</p>
@@ -219,10 +222,14 @@ const Seller  = {
       <table class="table table-sm table-bordered table-hover">
         <thead>
           <tr>
-            <th>Name</th>
+            <th>Имя</th>
+            <th>Объем продажи</th>
+            <th>Статус</th>
+            <th>Действия</th>
+            <!-- <th>Name</th>
             <th>Product Value</th>
             <th>Status</th>
-            <th>Actions</th>
+            <th>Actions</th> -->
           </tr>
         </thead>
 
@@ -230,12 +237,17 @@ const Seller  = {
           <tr v-for="seller in sellers">
             <td>{{ seller.FIO }}</td>
             <td>{{ seller.value_product }}</td>
-            <td v-if="seller.status === true"><span class="success_text">Active</span></td>
-            <td v-if="seller.status === false"><span class="error_text">Inactive</span></td>
+            <td v-if="seller.status_sell === true"><span class="success_text">Работает</span></td>
+            <td v-if="seller.status_sell === false"><span class="error_text">Уволен</span></td>
+            <!-- <td v-if="seller.status_sell === true"><span class="success_text">Active</span></td>
+            <td v-if="seller.status_sell === false"><span class="error_text">Inactive</span></td> -->
             <td>
-              <button v-bind:value="seller.id_sell" v-on:click="getSellerById" type="button" class="btn blue_button">View</button>
+              <button v-bind:value="seller.id_sell" v-on:click="getSellerById" type="button" class="btn blue_button">Посмотреть</button>
+              <button v-bind:value="seller.id_sell" v-on:click="showPostModal = true; formAction = 'Редактировать'; getSellerByIdOnlyData($event, seller.id_sell)" type="button" class="btn green_button">Редактировать</button>
+              <button v-bind:value="seller.id_sell" v-on:click="deleteSellerById" type="button" class="btn red_button">Удалить</button>
+              <!-- <button v-bind:value="seller.id_sell" v-on:click="getSellerById" type="button" class="btn blue_button">View</button>
               <button v-bind:value="seller.id_sell" v-on:click="showPostModal = true; formAction = 'Update'; getSellerByIdOnlyData($event, seller.id_sell)" type="button" class="btn green_button">Edit</button>
-              <button v-bind:value="seller.id_sell" v-on:click="deleteSellerById" type="button" class="btn red_button">Delete</button>
+              <button v-bind:value="seller.id_sell" v-on:click="deleteSellerById" type="button" class="btn red_button">Delete</button> -->
             </td>
           </tr>
         </tbody>
@@ -251,35 +263,35 @@ const Seller  = {
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title">{{ formAction }} Seller</h5>
+                  <h5 class="modal-title">{{ formAction }} продавца</h5>
                 </div>
                 <div class="modal-body">
-                  <p v-if="formAction === 'Update'">Id: <span>{{ selectedSeller.id_sell }}</span></p>
+                  <p v-if="formAction === 'Редактировать'">Id: <span>{{ selectedSeller.id_sell }}</span></p>
 
                   <div class="form-group">
-                    <label for="sellerInputCompanyName">Name</label>
-                    <input v-if="formAction === 'Create'" type="text" class="form-control" id="sellerInputCompanyName" v-model="newSeller.FIO">
+                    <label for="sellerInputCompanyName">Имя</label>
+                    <input v-if="formAction === 'Создать'" type="text" class="form-control" id="sellerInputCompanyName" v-model="newSeller.FIO">
                     <input v-else type="text" class="form-control" id="sellerInputCompanyName" v-model="selectedSeller.FIO" value="selectedSeller.FIO">
                   </div>
 
                   <div class="form-group">
-                    <label for="sellerInputDescription">Product Value</label>
-                    <input v-if="formAction === 'Create'" type="text" class="form-control" id="sellerInputProductValue" v-model="newSeller.value_product">
+                    <label for="sellerInputDescription">Объем продажи</label>
+                    <input v-if="formAction === 'Создать'" type="text" class="form-control" id="sellerInputProductValue" v-model="newSeller.value_product">
                     <input v-else type="text" class="form-control" id="sellerInputProductValue" v-model="selectedSeller.value_product" value="selectedSeller.value_product">
                   </div>
 
                   <div class="form-group">
                     <div class="form-check">
-                      <input v-if="formAction === 'Create'" v-model="newSeller.status" class="form-check-input" type="checkbox" id="ststusCheck">
-                      <input v-else v-model="selectedSeller.status" value="selectedSeller.status" class="form-check-input" type="checkbox" id="ststusCheck">
-                      <label class="form-check-label" for="ststusCheck">Status</label>
+                      <input v-if="formAction === 'Создать'" v-model="newSeller.status_sell" class="form-check-input" type="checkbox" id="ststusCheck">
+                      <input v-else v-model="selectedSeller.status_sell" value="selectedSeller.status_sell" class="form-check-input" type="checkbox" id="ststusCheck">
+                      <label class="form-check-label" for="ststusCheck">Статус</label>
                     </div>
                   </div>
 
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn red_button" v-on:click="showPostModal = false">Close</button>
-                  <button v-if="formAction === 'Create'" type="button" class="btn yellow_button" @click.prevent="createSeller()">{{ formAction }}</button>
+                  <button type="button" class="btn red_button" v-on:click="showPostModal = false">Закрыть</button>
+                  <button v-if="formAction === 'Создать'" type="button" class="btn yellow_button" @click.prevent="createSeller()">{{ formAction }}</button>
                   <button v-else type="button" class="btn green_button" v-bind:value="selectedSeller.id_sell" @click.prevent="updateSellerById">{{ formAction }}</button>
                 </div>
               </div>
@@ -298,17 +310,17 @@ const Seller  = {
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title">Seller View</h5>
+                  <h5 class="modal-title">Просмотр продавца</h5>
                 </div>
                 <div class="modal-body">
-                  <p>Seller Id: <span>{{ selectedSeller.id_sell }}</span></p>
-                  <p>Seller Name: <span>{{ selectedSeller.FIO }}</span></p>
-                  <p>Product Value: <span>{{ selectedSeller.value_product }}</span></p>
-                  <p v-if="selectedSeller.status === true">Status: <span class="success_text">Active</span></p>
-                  <p v-if="selectedSeller.status === false">Status: <span class="error_text">Inactive</span></p>
+                  <p>Id продавца: <span>{{ selectedSeller.id_sell }}</span></p>
+                  <p>Имя: <span>{{ selectedSeller.FIO }}</span></p>
+                  <p>Объем продажи: <span>{{ selectedSeller.value_product }}</span></p>
+                  <p v-if="selectedSeller.status_sell === true">Статус: <span class="success_text">Работает</span></p>
+                  <p v-if="selectedSeller.status_sell === false">Статус: <span class="error_text">Уволен</span></p>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn red_button" v-on:click="showGetModal = false">Close</button>
+                  <button type="button" class="btn red_button" v-on:click="showGetModal = false">Закрыть</button>
                 </div>
               </div>
             </div>

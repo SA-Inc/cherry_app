@@ -8,7 +8,7 @@ import script.sql_helper as sql_helper
 def create_seller(data):
   cursor = connection.cursor()
   query = seller_queries.insert_seller
-  data = (data['status'], data['FIO'], data['value_product'])
+  data = (data['status_sell'], data['FIO'], data['value_product'])
 
   try:
     cursor.execute(query, data)
@@ -88,7 +88,7 @@ def read_seller_id():
 def update_seller(id_sell, data):
   cursor = connection.cursor()
   query = seller_queries.update_seller_by_id
-  data = (data['status'], data['FIO'], data['value_product'], id_sell)
+  data = (data['status_sell'], data['FIO'], data['value_product'], id_sell)
 
   try:
     result = cursor.execute(query, data)
